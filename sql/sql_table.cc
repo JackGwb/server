@@ -10248,6 +10248,8 @@ copy_data_between_tables(THD *thd, TABLE *from, TABLE *to,
     DBUG_RETURN(-1);
   }
 
+  backup_set_alter_copy_lock(thd);
+
   alter_table_manage_keys(to, from->file->indexes_are_disabled(), keys_onoff);
 
   from->default_column_bitmaps();
@@ -10528,6 +10530,9 @@ copy_data_between_tables(THD *thd, TABLE *from, TABLE *to,
 
   cleanup_done= 1;
   to->file->extra(HA_EXTRA_NO_IGNORE_DUP_KEY);
+
+  if (backup_reset_alter_copy_lock(thd))
+    error= 1;
 
   if (unlikely(mysql_trans_commit_alter_copy_data(thd)))
     error= 1;

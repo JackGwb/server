@@ -2895,6 +2895,7 @@ void MDL_ticket::downgrade_lock(enum_mdl_type type)
   /* Only allow downgrade from EXCLUSIVE, SHARED_NO_WRITE or BACKUP_SMT */
   DBUG_ASSERT(m_type == MDL_EXCLUSIVE ||
               m_type == MDL_SHARED_NO_WRITE ||
+              m_type == MDL_BACKUP_DML ||       // Can happen with alter table
               m_type == MDL_BACKUP_STMT);
 
   mysql_prlock_wrlock(&m_lock->m_rwlock);

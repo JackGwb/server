@@ -2106,7 +2106,7 @@ retry_share:
       MDL_request protection_request;
       MDL_deadlock_handler mdl_deadlock_handler(ot_ctx);
 
-      if (thd->global_read_lock.can_acquire_protection())
+      if (thd->has_read_only_protection())
       {
         MYSQL_UNBIND_TABLE(table->file);
         tc_release_table(table);
@@ -3982,7 +3982,7 @@ lock_table_names(THD *thd, const DDL_options_st &options,
       by acquiring global intention exclusive lock with statement
       duration.
     */
-    if (thd->global_read_lock.can_acquire_protection())
+    if (thd->has_read_only_protection())
       DBUG_RETURN(TRUE);
     global_request.init(MDL_key::BACKUP, "", "", MDL_BACKUP_STMT,
                         MDL_STATEMENT);
