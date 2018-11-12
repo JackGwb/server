@@ -366,6 +366,11 @@ thd_supports_xa(
 	THD*	thd);	/*!< in: thread handle, or NULL to query
 			the global innodb_supports_xa */
 
+/** Get global default encryption key_id
+@return	key_id */
+UNIV_INTERN
+uint thd_default_encryption_key_id(void);
+
 /** Get status of innodb_tmpdir.
 @param[in]	thd	thread handle, or NULL to query
 			the global innodb_tmpdir.
